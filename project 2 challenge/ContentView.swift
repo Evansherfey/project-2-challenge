@@ -1,24 +1,30 @@
-//
-//  ContentView.swift
-//  project 2 challenge
-//
-//  Created by Student on 9/19/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+    @State private var inputAmount = ""
+    @State private var unitInput = 0
+    @State private var unitOutput = 0
+    
+    var outputAmount: Double {
+        let input = Double(inputAmount) ?? 0
+        let inputAsMeter = input / rates[unitInput]
+        
+        return inputAsMeter * rates[unitOutput]
     }
-}
-
-#Preview {
-    ContentView()
+    
+    let units = ["meters", "kilometers", "feet", "yard", "miles"]
+    let rates = [1.0, 0.001, 3.28084, 1.09361, 0.000621371]
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section(header: Text("convert from")) {
+                    TextField("Amount", text: $inputAmount)
+                        .keyboardType(.decimalPad)
+                    Picker("Unit", selection: $unitInput) {
+                    }
+                }
+            }
+        }
+    }
 }
